@@ -1,0 +1,145 @@
+Sure, another good option is the Pexels API, which provides high-quality images and supports search functionality.
+
+Sign Up for Pexels API:
+
+Go to Pexels API and sign up to get an API key.
+Update Your Code:
+
+Replace the placeholder YOUR_PEXELS_API_KEY with your actual Pexels API key.
+HTML and JavaScript with Pexels API Integration
+Here's the complete code using the Pexels API:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(120deg, #007bff, #d0314c);
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 70%;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        .image-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .car-image {
+            width: calc(33.33% - 10px);
+            height: auto;
+            border-radius: 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .car-image {
+                width: calc(50% - 10px);
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .car-image {
+                width: calc(100% - 10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to your Dashboard, <%= username %>!</h2>
+        <p>Login successful!</p>
+        <input type="text" class="search-bar" id="searchInput" placeholder="Enter car name...">
+        <button class="search-button" onclick="search()">Search</button>
+        <div class="image-container" id="imageContainer"></div>
+    </div>
+
+    <script>
+        function search() {
+            var searchInput = document.getElementById("searchInput").value;
+            var apiUrl = 'https://api.pexels.com/v1/search?query=' + encodeURIComponent(searchInput) + '&per_page=9';
+
+            fetch(apiUrl, {
+                headers: {
+                    Authorization: 'k8YuHgA2P50tmjvJxHQvL3yfo0Xz6N8tv8mhyYgPtnA5mtNLMAujam7x'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    displayImages(data.photos);
+                })
+                .catch(error => console.error('Error fetching images:', error));
+        }
+
+        function displayImages(photos) {
+            var imageContainer = document.getElementById("imageContainer");
+            imageContainer.innerHTML = ''; // Clear previous results
+
+            photos.forEach(photo => {
+                var imgElement = document.createElement("img");
+                imgElement.src = photo.src.medium;
+                imgElement.classList.add("car-image");
+                imageContainer.appendChild(imgElement);
+            });
+        }
+    </script>
+</body>
+</html>
